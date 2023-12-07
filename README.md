@@ -60,7 +60,7 @@ Créer l'utilisateur "ipi" :
 
 en tant qu'administrateur (sous Windows : recherche "cmd" dans les applications et dessus clic droit > "Run as admin", sous linux : sudo su - postgres) :
 
-    $> psql
+    $> psql postgres
     $postgresql> create user ipi with password 'ipi' createdb;
     $postgresql> \q
 
