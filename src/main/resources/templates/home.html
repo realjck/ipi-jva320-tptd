@@ -9,18 +9,18 @@
     <nav th:insert="~{common :: navbar}"></nav>
     <div class="container mt-2">
         <div class="jumbotron">
-            <h1><span></span>Bienvenue dans l'interface d'administration RH ! (<span th:text="${nbSalarie}"></span> salariés)</h1>
+            <h1><span class="badge mr-2"><i class="fa fa-users"></i></span>Bienvenue dans l'interface d'administration RH ! (<span th:text="${nbSalarie}"></span> salariés)</h1>
             <p>Voir dans <code>README.md</code> comment configurer la base de données de l'application, la lancer et afficher une page statique.</p>
             <p>Cette application est développée sous forme de Controllers Spring MVC et templates Thymeleaf. Les premiers sont à développer et les seconds à enrichir à partir des pages HTML existantes.</p>
             <p/>
             <p>Fonctionnalités attendues pour l'application :</p>
-            <ul class="list-group">
+            <ul id="feat-list" class="list-group">
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading"><span th:replace="common::flag"></span>Rendu des pages web développées en phase de design (Natural Templating)</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Rendu des pages web développées en phase de design (Natural Templating)</h4>
                     <p class="list-group-item-text">Afficher cette page sans rendu Thymeleaf. Il suffit d'aller à <a href="./home.html">http://localhost:8080/home.html</a>. Si vous lisez ces lignes, c'est que vous y êtes arrivés !</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading"><span th:replace="common::flag"></span>Page d'accueil</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Page d'accueil</h4>
                     <p class="list-group-item-text">La racine de l'application doit rediriger sur le présent template Thymeleaf. Développer le bon HomeController pour cela.</em>.</p>
                 </li>
                 <li class="list-group-item">
@@ -28,11 +28,11 @@
                     <p class="list-group-item-text">Rendre configurable le message de bienvenue sur la présente page (Bienvenue dans l'interface d'administration RH !) dans le fichier de messages de l'application (main/resources/messages(en/fr(_FR)).properties)</em>.</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Afficher le nombre de salariés</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Afficher le nombre de salariés</h4>
                     <p class="list-group-item-text">Dans le titre au-dessus, "26" doit être remplacé par le nombre de salariés réellement en base. Développer ou enrichir la bonne méthode mappée de Controller en utilisant méthode countSalaries() de SalarieAideADomicileService pour cela (à injecter dans le Controller en l'annotannt @Autowired).</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Afficher la page des détails d'un salarié</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Afficher la page des détails d'un salarié</h4>
                     <p class="list-group-item-text">Développer ou enrichir le bon Controller pour rendre le template du détail d'un salarié "detail_Salarie.html" en allant à <a href="./salaries/1">http://localhost:8080/salaries/1</a>.</p>
                 </li>
                 <li class="list-group-item">
@@ -61,7 +61,7 @@
                     <p class="list-group-item-text">Développer ou enrichir le bon Controller pour rendre le template de liste des salariés "list.html" en allant à <a href="./salaries">http://localhost:8080/salaries</a>. Puis lui faire passer à la vue la liste des salariés stockées en base de données en utilisant la bonne méthode de SalarieAideADomicileService, et enfin dans "list.html" faire afficher les données de tous les salariés ainsi passées lors du rendu dynamique, en l'enrichissant des bons attributs Thymeleaf (utiliser aussi th:each...). Faire en sorte que les salariés d'exemple en dur dans la page web soient toujours affichés en statique mais disparaissent en rendu dynamique.</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Modification d'un salarié</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-progress"></span>Modification d'un salarié</h4>
                     <p class="list-group-item-text">En allant à <a href="./salaries/1">http://localhost:8080/salaries/1</a> (page de détail du salarié d'id 1), il est possible de modifier les informations du salarié d'identifiant 1 qui sont persistées en base de donnée lorsqu'on clique sur le bouton <em>Enregistrer</em>. L'URL qui est appelée est <code>POST /salaries/1</code> avec les données du formulaire qui sont envoyées (NB. en API REST ce serait un PUT mais il s'agit de Controllers de pages web).</p>
                     <p class="list-group-item-text">Développer ou enrichir le bon Controller pour réaliser cela, et côté web réutiliser detail_Salarie.html (comme le code du Controller et donc leurs URLs et les valeurs affichées dans le template HTML diffèrent dans les deux cas création et modification, il faut utiliser des expressions conditionnelles ternaires Thymeleaf pour supporter les deux à la fois). Une alternative permettant de se passer d'expressions conditionnelles ternaires Thymeleaf est de plutôt le copier vers new_Salarie.html.
                     Attention, le
