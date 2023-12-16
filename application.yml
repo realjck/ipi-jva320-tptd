@@ -1,0 +1,4 @@
+# Enable or disable Open EntityManager in View
+spring:
+  jpa:
+    open-in-view: true
