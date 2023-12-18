@@ -9,7 +9,7 @@
     <nav th:insert="~{common :: navbar}"></nav>
     <div class="container mt-2">
         <div class="jumbotron">
-            <h1><span class="badge mr-2"><i class="fa fa-users"></i></span>Bienvenue dans l'interface d'administration RH ! (<span th:text="${nbSalarie}"></span> salariés)</h1>
+            <h1><span class="badge mr-2"><i class="fa fa-users"></i></span><span th:text="${msgHome}"></span></h1>
             <p>Voir dans <code>README.md</code> comment configurer la base de données de l'application, la lancer et afficher une page statique.</p>
             <p>Cette application est développée sous forme de Controllers Spring MVC et templates Thymeleaf. Les premiers sont à développer et les seconds à enrichir à partir des pages HTML existantes.</p>
             <p>Fonctionnalités attendues pour l'application :</p>
@@ -23,7 +23,7 @@
                     <p class="list-group-item-text">La racine de l'application doit rediriger sur le présent template Thymeleaf. Développer le bon HomeController pour cela.</em>.</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">Message en page d'accueil</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Message en page d'accueil</h4>
                     <p class="list-group-item-text">Rendre configurable le message de bienvenue sur la présente page (Bienvenue dans l'interface d'administration RH !) dans le fichier de messages de l'application (main/resources/messages(en/fr(_FR)).properties)</em>.</p>
                 </li>
                 <li class="list-group-item">

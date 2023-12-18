@@ -4,30 +4,33 @@ import com.ipi.jva320.exception.SalarieException;
 import com.ipi.jva320.model.SalarieAideADomicile;
 import com.ipi.jva320.service.SalarieAideADomicileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.logging.Logger;
-
-//@ResponseStatus
 
 @Controller
 public class SalarieController {
 
     @Autowired
     SalarieAideADomicileService salarieAideADomicileService;
-
+    @Autowired
+    private MessageSource messageSource;
     @GetMapping("/salaries")
     public String getSalariesList(final ModelMap model){
         return "list";
     }
     @GetMapping("/salaries/{id}")
     public String getSalaries(final ModelMap model, @PathVariable long id) {
+
         SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
         model.put("salarie", salarie);
+
+        Object[] params = {salarie.getId(), salarie.getNom()};
+        String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
+        model.put("msgSalarie", msgSalarie);
+
         return "detail_Salarie";
     }
     @PostMapping("/salaries/save")
