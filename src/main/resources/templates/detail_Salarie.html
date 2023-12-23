@@ -4,9 +4,9 @@
 <body>
 <nav th:insert="~{common :: navbar}"></nav>
 <div class="container">
-    <div th:text="${msgSalarie}"></div>
+    <div th:text="#{msg.salarie_detail}"></div>
 
-    <h2 class="ml-n2"><span class="badge badge-light mr-2" style="cursor:pointer" onclick="goBack()"><i class="fa fa-arrow-left"></i></span>Détail du salarié</h2>
+    <h2 class="ml-n2"><span class="badge badge-dark mr-2" style="cursor:pointer" onclick="goBack()"><i class="fa fa-arrow-left"></i></span><span id="salarie-title" th:text="${msgSalarie}"></span></h2>
     <script th:inline="javascript">
         function goBack() {
             window.history.back();
@@ -111,3 +111,11 @@
     </div>
 </div>
 </body></html>
+<script th:inline="javascript">
+    const inputNom = document.getElementById('nom');
+    const inputId = document.getElementById('id');
+    const title = document.getElementById('salarie-title');
+    inputNom.addEventListener('input', function() {
+        title.textContent = "#" + inputId.value + " " + inputNom.value;
+    });
+</script>
