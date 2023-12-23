@@ -15,9 +15,9 @@
   </button>
   <div class="collapse navbar-collapse d-inline-flex" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li><a href="/salaries?page=0&amp;size=10&amp;sortProperty=id&amp;sortDirection=ASC" class="nav-link">Liste des salariés <span th:text="${count}" class="badge badge-primary"></span></a></li>
+      <li><a href="/salaries" class="nav-link">Liste des salariés <span th:text="${count}" class="badge badge-primary"></span></a></li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" role="search" action="./salaries" method="GET">
+    <form class="form-inline my-2 my-lg-0" role="search" action="/salaries" method="GET">
       <div class="form-group">
         <input name="matricule" class="form-control" placeholder="Rechercher un nom" type="text">
       </div>

@@ -6,7 +6,12 @@
 <div class="container">
     <div th:text="${msgSalarie}"></div>
 
-    <h2>Détail du salarié</h2>
+    <h2 class="ml-n2"><span class="badge badge-light mr-2" style="cursor:pointer" onclick="goBack()"><i class="fa fa-arrow-left"></i></span>Détail du salarié</h2>
+    <script th:inline="javascript">
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     
     <form id="saveForm" th:action="@{/salaries/save}" method="post" class="row">
         <div class="col-lg-6">
