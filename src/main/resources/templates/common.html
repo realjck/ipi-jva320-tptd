@@ -1,28 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <body>
-    <!-- Barre de navigation -->
-    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Aide à domicile RH - gestion des salariés</a>
-      <button class="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-inline-flex" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li><a href="/salaries?page=0&amp;size=10&amp;sortProperty=id&amp;sortDirection=ASC" class="nav-link">Liste des salariés <span th:text="${count}" class="badge badge-primary"></span></a></li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" role="search" action="./salaries" method="GET">
-          <div class="form-group">
-            <input name="matricule" class="form-control" placeholder="Rechercher un nom" type="text">
-          </div>
-          <button type="submit" class="btn btn-outline-success ml-2 my-2 my-sm-0">Rechercher</button>
-        </form>
-      </div>
-    </nav>
+<!-- HEAD -->
+<head th:fragment="head">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title th:text="#{msg.title}"></title>
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/font-awesome.css">
+</head>
 
-    <!-- home list flags -->
-    <span th:fragment="flag-progress" class="badge badge-warning mr-2"><i class="fa fa-flag-checkered"></i></span>
-    <span th:fragment="flag-done" class="badge badge-success mr-2"><i class="fa fa-flag-checkered"></i></span>
-  </body>
-</html>
+<!-- Barre de navigation -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Aide à domicile RH - gestion des salariés</a>
+  <button class="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse d-inline-flex" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li><a href="/salaries?page=0&amp;size=10&amp;sortProperty=id&amp;sortDirection=ASC" class="nav-link">Liste des salariés <span th:text="${count}" class="badge badge-primary"></span></a></li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" role="search" action="./salaries" method="GET">
+      <div class="form-group">
+        <input name="matricule" class="form-control" placeholder="Rechercher un nom" type="text">
+      </div>
+      <button type="submit" class="btn btn-outline-success ml-2 my-2 my-sm-0">Rechercher</button>
+    </form>
+  </div>
+</nav>
+
+<!-- home list flags -->
+<span th:fragment="flag-progress" class="badge badge-warning mr-2"><i class="fa fa-flag-checkered"></i></span>
+<span th:fragment="flag-done" class="badge badge-success mr-2"><i class="fa fa-flag-checkered"></i></span>
