@@ -16,19 +16,31 @@
         <thead>
         <tr>
           <th scope="col">ID
-            <a href="/salaries?page=0&size=10&sortProperty=id&sortDirection=DESC"><i class="fa fa-chevron-up"></i></a>
+            <a th:href="@{/salaries(page=0, sortProperty='id', sortDirection=${sortProperty=='id' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
+              <span class="badge badge-secondary">
+                <i th:if="${sortProperty == 'id' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
+                <i th:if="${sortProperty == 'id' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
+                <i th:if="${sortProperty != 'id'}" class="fa fa-minus"></i>
+              </span>
+            </a>
           </th>
           <th scope="col">Nom
-            <a href="/salaries?page=0&size=10&sortProperty=nom&sortDirection=DESC"><i class="fa fa-chevron-up"></i></a>
+            <a th:href="@{/salaries(page=0, sortProperty='nom', sortDirection=${sortProperty=='nom' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
+              <span class="badge badge-secondary">
+                <i th:if="${sortProperty == 'nom' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
+                <i th:if="${sortProperty == 'nom' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
+                <i th:if="${sortProperty != 'nom'}" class="fa fa-minus"></i>
+              </span>
+            </a>
           </th>
           <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="salarie, rowStat : ${pageSalaries.content}">
-          <td th:text="${rowStat.index + pageSalaries.number * pageSalaries.size + 1}" class="p-1"></td>
-          <td th:text="${salarie.getNom()}" class="p-1"></td>
-          <td class="p-1">
+          <td th:text="${salarie.getId()}" class="p-1 col-1"></td>
+          <td th:text="${salarie.getNom()}" class="p-1 col-9"></td>
+          <td class="p-1 col-2">
             <a th:href="@{'/salaries/' + ${salarie.getId()}}" class="btn btn-sm btn-secondary">
               <i class="fa fa-edit"></i> Détail
             </a>
@@ -43,13 +55,13 @@
         <div class="col-lg-6">
           <ul class="pagination">
             <li th:class="${pageSalaries.first ? 'page-item disabled' : 'page-item'}">
-              <a th:href="@{/salaries(page=${pageSalaries.number - 1})}" class="page-link" aria-label="Previous">«</a>
+              <a th:href="@{/salaries(page=${pageSalaries.number - 1}, sortProperty=${sortProperty}, sortDirection=${sortDirection})}" class="page-link" aria-label="Previous">«</a>
             </li>
             <li th:each="pageNumber : ${#numbers.sequence(0, pageSalaries.totalPages - 1)}" th:class="${pageNumber == pageSalaries.number ? 'page-item active' : 'page-item'}">
-              <a th:href="@{/salaries(page=${pageNumber})}" class="page-link" th:text="${pageNumber + 1}"></a>
+              <a th:href="@{/salaries(page=${pageNumber}, sortProperty=${sortProperty}, sortDirection=${sortDirection})}" class="page-link" th:text="${pageNumber + 1}"></a>
             </li>
             <li th:class="${pageSalaries.last ? 'page-item disabled' : 'page-item'}">
-              <a th:href="@{/salaries(page=${pageSalaries.number + 1})}" class="page-link" aria-label="Next">»</a>
+              <a th:href="@{/salaries(page=${pageSalaries.number + 1}, sortProperty=${sortProperty}, sortDirection=${sortDirection})}" class="page-link" aria-label="Next">»</a>
             </li>
           </ul>
         </div>

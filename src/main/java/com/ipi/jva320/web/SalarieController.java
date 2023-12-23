@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +27,17 @@ public class SalarieController {
     public String getSalariesList(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortProperty,
+        @RequestParam(defaultValue = "ASC") String sortDirection,
         final ModelMap model
     ){
-        PageRequest pageRequest = PageRequest.of(page, size);
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        PageRequest pageRequest = PageRequest.of(page, size, direction, sortProperty);
         Page<SalarieAideADomicile> pageSalaries = salarieAideADomicileService.getSalaries(pageRequest);
         model.put("pageSalaries", pageSalaries);
+        model.put("sortProperty", sortProperty);
+        model.put("sortDirection", sortDirection);
+
         return "list";
     }
     @GetMapping("/salaries/{id}")
