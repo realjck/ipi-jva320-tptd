@@ -13,7 +13,6 @@ import javax.persistence.EntityExistsException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -81,18 +80,20 @@ public class SalarieAideADomicileService {
      * Créée un nouveau salarié en base de données.
      * @param salarieAideADomicile à créer
      * @return salarieAideADomicile créé (avec son id en base)
-     * @throws SalarieException si son nom est déjà pris ou si l'id est fourni TODO NON
+     * @throws SalarieException si son nom est déjà pris ou si l'id est fourni
      */
-    public SalarieAideADomicile creerSalarieAideADomicile(SalarieAideADomicile salarieAideADomicile)
-            throws SalarieException, EntityExistsException {
+    public SalarieAideADomicile creerSalarieAideADomicile(SalarieAideADomicile salarieAideADomicile) throws SalarieException, EntityExistsException {
         if (salarieAideADomicile.getId() != null) {
             throw new SalarieException("L'id ne doit pas être fourni car il est généré");
         }
-        /*Optional<SalarieAideADomicile> existantOptional = salarieAideADomicileRepository.findById(salarieAideADomicile.getId());
-        if (!existantOptional.isEmpty()) {
-            throw new SalarieException("Un salarié existe déjà avec l'id " + existant.getId()); // TODO id ou nom ??
-        }*/
-       return salarieAideADomicileRepository.save(salarieAideADomicile);
+        // Vérification homonymie :
+        List<SalarieAideADomicile> existantHomonyme = this.getSalaries()
+            .stream().filter(s -> s.getNom().equalsIgnoreCase(salarieAideADomicile.getNom()))
+            .collect(Collectors.toList());
+        if (!existantHomonyme.isEmpty()) {
+            throw new SalarieException("Un salarié avec le nom "+salarieAideADomicile.getNom()+" existe déjà !");
+        }
+        return salarieAideADomicileRepository.save(salarieAideADomicile);
     }
 
     public SalarieAideADomicile updateSalarieAideADomicile(SalarieAideADomicile salarieAideADomicile)
@@ -100,21 +101,28 @@ public class SalarieAideADomicileService {
         if (salarieAideADomicile.getId() == null) {
             throw new SalarieException("L'id doit être fourni");
         }
+
         Optional<SalarieAideADomicile> existantOptional = salarieAideADomicileRepository.findById(salarieAideADomicile.getId());
         if (existantOptional.isEmpty()) {
-            throw new SalarieException("Le salarié n'existe pas déjà d'id " + salarieAideADomicile.getId()); // TODO id ou nom ??
+            throw new SalarieException("Le salarié n'existe pas déjà d'id " + salarieAideADomicile.getId());
+        }
+        // Vérification homonymie :
+        List<SalarieAideADomicile> existantHomonyme = this.getSalaries()
+                .stream().filter(s -> s.getNom().equalsIgnoreCase(salarieAideADomicile.getNom()))
+                .collect(Collectors.toList());
+        if (!existantHomonyme.isEmpty()) {
+            throw new SalarieException("Un salarié avec le nom "+salarieAideADomicile.getNom()+" existe déjà !");
         }
         return salarieAideADomicileRepository.save(salarieAideADomicile);
     }
 
-    public void deleteSalarieAideADomicile(Long id)
-            throws SalarieException, EntityExistsException {
+    public void deleteSalarieAideADomicile(Long id) throws SalarieException, EntityExistsException {
         if (id == null) {
             throw new SalarieException("L'id doit être fourni");
         }
         Optional<SalarieAideADomicile> existantOptional = salarieAideADomicileRepository.findById(id);
         if (existantOptional.isEmpty()) {
-            throw new SalarieException("Le salarié n'existe pas déjà d'id " + id); // TODO id ou nom ??
+            throw new SalarieException("Le salarié n'existe pas déjà d'id " + id);
         }
         salarieAideADomicileRepository.deleteById(id);
     }

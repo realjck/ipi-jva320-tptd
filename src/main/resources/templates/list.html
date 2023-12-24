@@ -6,6 +6,7 @@
 <div class="container">
   <h1 class="d-inline-flex mr-3">Liste des salariés</h1>
   <a href="/salaries/new" class="btn btn-primary mb-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
+  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success ml-5 mb-0">Les modifications ont bien été enregistrées.</div>
   <!-- Bouton pour effacer recherche : -->
   <div class="row" th:if="${matricule!=''}">
     <a href="/salaries/">
@@ -48,7 +49,7 @@
           <td th:text="${salarie.getId()}" class="p-2 col-2"></td>
           <td th:text="${salarie.getNom()}" class="p-2 col-8"></td>
           <td class="p-1 col-2">
-            <a th:href="@{'/salaries/' + ${salarie.getId()}}" class="btn btn-sm btn-dark hide-able">
+            <a th:href="@{'/salaries/' + ${salarie.getId()}}" class="btn btn-sm btn-secondary hide-able">
               <i class="fa fa-edit"></i> Détail
             </a>
           </td>

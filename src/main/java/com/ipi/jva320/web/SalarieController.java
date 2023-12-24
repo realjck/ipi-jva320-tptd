@@ -10,6 +10,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,6 +40,7 @@ public class SalarieController {
         @RequestParam(defaultValue = "id") String sortProperty,
         @RequestParam(defaultValue = "ASC") String sortDirection,
         @RequestParam(defaultValue = "") String matricule,
+        @RequestParam(defaultValue = "false") String saved,
         final ModelMap model
     ){
         Sort.Direction direction = Sort.Direction.fromString(sortDirection);
@@ -56,6 +59,7 @@ public class SalarieController {
         model.put("sortProperty", sortProperty);
         model.put("sortDirection", sortDirection);
         model.put("matricule", matricule);
+        model.put("saved", saved);
 
         return "list";
     }
@@ -81,24 +85,50 @@ public class SalarieController {
     }
 
     /**
-     * Enregistre ou Créé un Salarié
-     * @param salarieAideADomicile SalarieAideDomicile
+     * Modifie ou Créé un Salarié
+     * @param salarie SalarieAideDomicile
      * @param model ModelMap
      * @return HTML
      */
     @PostMapping("/salaries/save")
-    public String modifySalarie(@ModelAttribute SalarieAideADomicile salarieAideADomicile, final ModelMap model) throws SalarieException {
-        try {
-            salarieAideADomicileService.updateSalarieAideADomicile(salarieAideADomicile);
-        } catch (SalarieException e){
-            salarieAideADomicileService.creerSalarieAideADomicile(salarieAideADomicile);
+    public String saveSalarie(@ModelAttribute SalarieAideADomicile salarie, final ModelMap model) throws SalarieException {
+        String isError = "";
+        if (salarie.getId() != null){ // Si ID existante, alors UPDATE
+            try {
+                salarieAideADomicileService.updateSalarieAideADomicile(salarie);
+            } catch (SalarieException e){
+                isError = e.getMessage();
+            }
+        } else { // Si ID non-existante, alors CREATE
+            try {
+                salarieAideADomicileService.creerSalarieAideADomicile(salarie);
+            } catch (SalarieException e){
+                isError = e.getMessage();
+            }
         }
-        model.put("salarie", salarieAideADomicile);
-        return "detail_Salarie";
+        if (!Objects.equals(isError, "")){
+            model.put("isError", isError);
+            model.put("salarie", salarie);
+            return "detail_Salarie";
+        } else {
+            return "redirect:/salaries?saved=true";
+        }
     }
+
+    /**
+     * Route pour le formulaire de création d'un Salarié
+     * @param model MpoelMap
+     * @return HTML
+     */
     @GetMapping("salaries/new")
     public String createSalarie(final ModelMap model){
         model.put("msgSalarie", messageSource.getMessage("msg.salarie_new", null, LocaleContextHolder.getLocale()));
+
+        SalarieAideADomicile salarie = new SalarieAideADomicile();
+        salarie.setMoisEnCours(LocalDate.now());
+        salarie.setMoisDebutContrat(LocalDate.now());
+        model.put("salarie", salarie);
+
         return "detail_Salarie";
     }
 
