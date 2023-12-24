@@ -4,9 +4,9 @@
 <body>
 <nav th:insert="~{common :: navbar}"></nav>
 <div class="container">
-    <div th:text="#{msg.salarie_detail}"></div>
+    <div th:text="${msgSalarie}"></div>
 
-    <h2 class="ml-n2"><span class="badge badge-dark mr-2" style="cursor:pointer" onclick="goBack()"><i class="fa fa-arrow-left"></i></span><span id="salarie-title" th:text="${msgSalarie}"></span></h2>
+    <h2 class="ml-n2"><span class="badge badge-dark mr-2" style="cursor:pointer" onclick="goBack()"><i class="fa fa-arrow-left"></i></span><span id="salarie-title" th:text="${salarie} ? ${salarie.getNom()} : ''"></span></h2>
     <script th:inline="javascript">
         function goBack() {
             window.history.back();
@@ -17,10 +17,10 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label class="form-control-label" for="id">ID</label>
-                <input th:value="${salarie} ? ${salarie.id}" type="text" value="10" class="form-control" name="id" id="id" >
+                <input th:value="${salarie} ? ${salarie.getId()}" type="text" value="10" class="form-control" name="id" id="id" disabled>
 
                 <label class="form-control-label" for="nom">Nom</label>
-                <input th:value="${salarie} ? ${salarie.nom} : '...'" type="text" value="Jean Dupont" class="form-control" name="nom" id="nom">
+                <input th:value="${salarie} ? ${salarie.getNom()} : ''" type="text" value="Jean Dupont" class="form-control" name="nom" id="nom">
 
                 <label class="form-control-label" for="nom">moisEnCours</label>
                 <input type="date" th:value="${salarie} ? ${salarie.moisEnCours} : ''" value="03/2023" class="form-control" name="moisEnCours"
@@ -116,6 +116,9 @@
     const inputId = document.getElementById('id');
     const title = document.getElementById('salarie-title');
     inputNom.addEventListener('input', function() {
-        title.textContent = "#" + inputId.value + " " + inputNom.value;
+        title.textContent = inputNom.value;
     });
+    if (inputId.value === ''){
+        inputNom.focus()
+    }
 </script>

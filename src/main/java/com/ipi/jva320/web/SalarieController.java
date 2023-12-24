@@ -19,6 +19,18 @@ public class SalarieController {
     SalarieAideADomicileService salarieAideADomicileService;
     @Autowired
     private MessageSource messageSource;
+
+    /**
+     * Liste des Salariés
+     * ------------------
+     * @param page int
+     * @param size int
+     * @param sortProperty string
+     * @param sortDirection string
+     * @param matricule string
+     * @param model ModelMap
+     * @return HTML
+     */
     @GetMapping("/salaries")
     public String getSalariesList(
         @RequestParam(defaultValue = "0") int page,
@@ -47,18 +59,33 @@ public class SalarieController {
 
         return "list";
     }
+
+    /**
+     * Détail d'un Salarié
+     * -------------------
+     * @param model ModelMap
+     * @param id long
+     * @return HTML
+     */
     @GetMapping("/salaries/{id}")
     public String getSalaries(final ModelMap model, @PathVariable long id) {
 
         SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
         model.put("salarie", salarie);
 
-        Object[] params = {salarie.getId(), salarie.getNom()};
+        Object[] params = {salarie.getId()};
         String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
         model.put("msgSalarie", msgSalarie);
 
         return "detail_Salarie";
     }
+
+    /**
+     * Enregistre ou Créé un Salarié
+     * @param salarieAideADomicile SalarieAideDomicile
+     * @param model ModelMap
+     * @return HTML
+     */
     @PostMapping("/salaries/save")
     public String modifySalarie(@ModelAttribute SalarieAideADomicile salarieAideADomicile, final ModelMap model) throws SalarieException {
         try {
@@ -69,9 +96,10 @@ public class SalarieController {
         model.put("salarie", salarieAideADomicile);
         return "detail_Salarie";
     }
-    @PostMapping("salaries/new")
-    public void createSalarie(final ModelMap model){
-        System.out.println(">>>>>>>>>>>>>> création");
+    @GetMapping("salaries/new")
+    public String createSalarie(final ModelMap model){
+        model.put("msgSalarie", messageSource.getMessage("msg.salarie_new", null, LocaleContextHolder.getLocale()));
+        return "detail_Salarie";
     }
 
 }

@@ -45,8 +45,8 @@
         <!-- ******************  Table Body  ******************  -->
         <tbody>
         <tr th:each="salarie, rowStat : ${pageSalaries.content}" class="salarie-row" th:id="${salarie.getId()}">
-          <td th:text="${salarie.getId()}" class="p-2 col-1"></td>
-          <td th:text="${salarie.getNom()}" class="p-2 col-9"></td>
+          <td th:text="${salarie.getId()}" class="p-2 col-2"></td>
+          <td th:text="${salarie.getNom()}" class="p-2 col-8"></td>
           <td class="p-1 col-2">
             <a th:href="@{'/salaries/' + ${salarie.getId()}}" class="btn btn-sm btn-dark hide-able">
               <i class="fa fa-edit"></i> Détail
