@@ -41,6 +41,7 @@ public class SalarieController {
         @RequestParam(defaultValue = "ASC") String sortDirection,
         @RequestParam(defaultValue = "") String matricule,
         @RequestParam(defaultValue = "false") String saved,
+        @RequestParam(defaultValue = "false") String deleted,
         final ModelMap model
     ){
         Sort.Direction direction = Sort.Direction.fromString(sortDirection);
@@ -60,6 +61,7 @@ public class SalarieController {
         model.put("sortDirection", sortDirection);
         model.put("matricule", matricule);
         model.put("saved", saved);
+        model.put("deleted", deleted);
 
         return "list";
     }
@@ -82,6 +84,30 @@ public class SalarieController {
         model.put("msgSalarie", msgSalarie);
 
         return "detail_Salarie";
+    }
+
+    /**
+     * Suppression d'un salarié
+     * @param model ModelMap
+     * @param id Long
+     * @return HTML
+     * @throws SalarieException error
+     */
+    @PostMapping("/salaries/{id}/delete")
+    public String deleteSalarie(final ModelMap model, @PathVariable long id) throws SalarieException {
+        SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
+        Object[] params = {salarie.getId()};
+        String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
+        try {
+            salarieAideADomicileService.deleteSalarieAideADomicile(id);
+            return "redirect:/salaries?deleted=true";
+        } catch (SalarieException e){
+            model.put("isError", e.getMessage());
+            model.put("needConfirm", true);
+            model.put("salarie", salarie);
+            model.put("msgSalarie", msgSalarie);
+            return "detail_Salarie";
+        }
     }
 
     /**
@@ -109,6 +135,9 @@ public class SalarieController {
         if (!Objects.equals(isError, "")){
             model.put("isError", isError);
             model.put("salarie", salarie);
+            Object[] params = {salarie.getId()};
+            String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
+            model.put("msgSalarie", msgSalarie);
             return "detail_Salarie";
         } else {
             return "redirect:/salaries?saved=true";

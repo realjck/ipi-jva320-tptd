@@ -113,22 +113,32 @@
     <div class="row mt-4">
         <div class="col-lg-6">
             <input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer">
-            <a th:if="${salarie.getId()}" href="/salaries/10/delete" class="btn btn-danger">Supprimer</a>
+            <!-- Delete form button -->
+            <div class="d-inline-flex ml-2">
+                <form method="post" th:action="'/salaries/' + ${salarie.getId()} + '/delete'">
+                    <button type="submit" id="deleteButton" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
         </div>
     </div>
 
 </div>
 </body></html>
 <script th:inline="javascript">
-    const inputId = document.getElementById('id');
-    const inputNom = document.getElementById('nom');
-    const title = document.getElementById('salarie-title');
     // Live typing Name value :
-    inputNom.addEventListener('input', function() {
+    const inputNom = document.getElementById('nom');
+    const title = document.getElementById('salarie-title')
+    inputNom.addEventListener('input', () => {
         title.textContent = inputNom.value;
     });
     // if creation, focus on Name input
-    if (!inputId){
+    if (!document.getElementById('id')){
         inputNom.focus()
     }
+    // Delete confirmation
+    document.getElementById("deleteButton").addEventListener("click", (event) => {
+        if (!confirm("⚠️ Êtes-vous sûr de vouloir supprimer ce salarié ?")){
+            event.preventDefault();
+        }
+    });
 </script>

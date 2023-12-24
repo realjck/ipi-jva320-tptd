@@ -4,12 +4,13 @@
 <body>
 <nav th:insert="~{common :: navbar}"></nav>
 <div class="container">
-  <h1 class="d-inline-flex mr-3">Liste des salariés</h1>
+  <h1 class="d-inline-flex mr-3 mt-3">Liste des salariés</h1>
   <a href="/salaries/new" class="btn btn-primary mb-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
-  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success ml-5 mb-0">Les modifications ont bien été enregistrées.</div>
+  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success ml-5 mt-3 align-top">Les modifications ont bien été enregistrées.</div>
+  <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger ml-5 mt-3 align-top">Le salarié a bien été supprimé.</div>
   <!-- Bouton pour effacer recherche : -->
   <div class="row" th:if="${matricule!=''}">
-    <a href="/salaries/">
+    <a href="/salaries">
       <div class="badge badge-secondary p-2 ml-4 mb-4">
         <span th:text="${matricule}"></span><i class="fa fa-close ml-2"></i>
       </div>

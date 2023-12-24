@@ -108,7 +108,7 @@ public class SalarieAideADomicileService {
         }
         // Vérification homonymie :
         List<SalarieAideADomicile> existantHomonyme = this.getSalaries()
-                .stream().filter(s -> s.getNom().equalsIgnoreCase(salarieAideADomicile.getNom()))
+                .stream().filter(s -> s.getNom().equalsIgnoreCase(salarieAideADomicile.getNom())  && !s.getId().equals(salarieAideADomicile.getId()))
                 .collect(Collectors.toList());
         if (!existantHomonyme.isEmpty()) {
             throw new SalarieException("Un salarié avec le nom "+salarieAideADomicile.getNom()+" existe déjà !");
