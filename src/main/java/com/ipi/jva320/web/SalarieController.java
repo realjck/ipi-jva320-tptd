@@ -43,6 +43,7 @@ public class SalarieController {
         @RequestParam(defaultValue = "") String matricule,
         @RequestParam(defaultValue = "false") String saved,
         @RequestParam(defaultValue = "false") String deleted,
+        @RequestParam(defaultValue = "false") String created,
         final ModelMap model
     ){
         Sort.Direction direction = Sort.Direction.fromString(sortDirection);
@@ -63,6 +64,7 @@ public class SalarieController {
         model.put("matricule", matricule);
         model.put("saved", saved);
         model.put("deleted", deleted);
+        model.put("created", created);
 
         return "list";
     }
@@ -128,7 +130,8 @@ public class SalarieController {
         } else { // Si ID non-existante, alors CREATE
             try {
                 salarieAideADomicileService.creerSalarieAideADomicile(salarie);
-                return "redirect:/salaries?saved=true&page=" + (int)((salarieAideADomicileService.countSalaries()-1)/10);
+                // renvoie la dernière page de la liste
+                return "redirect:/salaries?created=true&page=" + (int)((salarieAideADomicileService.countSalaries()-1)/10);
             } catch (SalarieException e){
                 isError = e.getMessage();
             }

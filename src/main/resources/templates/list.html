@@ -7,6 +7,7 @@
   <h1 class="d-inline-flex mr-3 mt-3">Liste des salariés</h1>
   <a href="/salaries/new" class="btn btn-primary mb-3 mr-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
   <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success mt-3 align-top">Les modifications ont bien été enregistrées.</div>
+  <div th:if="${created=='true'}" class="d-inline-flex alert alert-success mt-3 align-top">Le nouveau salarié a bien été créé.</div>
   <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger mt-3 align-top">Le salarié a bien été supprimé.</div>
   <!-- Bouton pour effacer recherche : -->
   <div class="row" th:if="${matricule!=''}">
@@ -86,8 +87,18 @@
 </div>
 </body>
 </html>
-<!-- JAVASCRIPT - Pour le survol et le click sur les Rows de la table  -->
+<!-- JAVASCRIPT -->
 <script th:inline="javascript">
+
+  // si l'on revient d'une sauvegarde, on remet les paramètres :
+  const history = sessionStorage.getItem('searchHistory').substring(1);
+  if (window.location.search.indexOf("saved=true") > -1 && window.location.search.indexOf(history) === -1){
+    let params = window.location.search + "&" + history;
+    params = params.replace("&saved=true", "");
+    window.location.search = params;
+  }
+
+  // Survol des lignes, et clic avec sauvegarde des paramètres pour le bouton back :
   const rows = document.querySelectorAll('.salarie-row');
   const hideables = document.querySelectorAll('.hide-able');
   hideAll();
@@ -99,14 +110,15 @@
   rows.forEach(row => {
     row.style.cursor = "pointer";
     row.addEventListener('click', (e) => {
+      // sauvegarde les paramètres puis navigue
+      sessionStorage.setItem('searchHistory', window.location.search);
       window.location.href = window.location.pathname + '/' + e.currentTarget.id;
     });
     row.addEventListener('mouseover', () => {
       hideAll();
       row.querySelector('.hide-able').style.display = 'block';
     });
-    row.addEventListener('mouseout', () => {
-      hideAll();
-    });
+    row.addEventListener('mouseout', hideAll);
   });
+
 </script>
