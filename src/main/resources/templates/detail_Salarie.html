@@ -7,7 +7,7 @@
     <div th:text="${msgSalarie}"></div>
 
     <h2 class="ml-n2">
-        <span class="badge badge-secondary mr-2" onclick="goBack()">
+        <span id="bt-back" class="badge badge-secondary mr-2" onclick="goBack()">
             <i class="fa fa-arrow-left"></i>
         </span>
         <span id="salarie-title" th:text="${salarie.getId()} ? ${salarie.getNom()} : #{msg.salarie_new_title}"></span>
@@ -130,7 +130,7 @@
     document.getElementById('listParams').value = sessionStorage.getItem("listParams");
 
     // button back :
-    document.querySelectorAll('.badge').forEach(elem => elem.style.cursor = "pointer");
+    document.getElementById('bt-back').style.cursor = "pointer";
     function goBack() {
         window.location.href = "/salaries" + sessionStorage.getItem('listParams');
     }

@@ -6,8 +6,8 @@
 <div class="container">
   <h1 class="d-inline-flex mr-3 mt-3">Liste des salariés</h1>
   <a href="/salaries/new" class="btn btn-primary mb-3 mr-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
-  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success mt-3 align-top">Les modifications ont bien été enregistrées.</div>
-  <div th:if="${created=='true'}" class="d-inline-flex alert alert-success mt-3 align-top">Le nouveau salarié a bien été créé.</div>
+  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-info mt-3 align-top">Les modifications ont bien été enregistrées.</div>
+  <div th:if="${created=='true'}" class="d-inline-flex alert alert-info mt-3 align-top">Le nouveau salarié a bien été créé.</div>
   <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger mt-3 align-top">Le salarié a bien été supprimé.</div>
   <!-- Bouton pour effacer recherche : -->
   <div class="row" th:if="${matricule!=''}">
@@ -45,9 +45,12 @@
           <th scope="col"></th>
         </tr>
         </thead>
-        <!-- ******************  Table Body  ******************  -->
+        <!-- ******************  Table Body (avec highlight)  ******************  -->
         <tbody>
-        <tr th:each="salarie, rowStat : ${pageSalaries.content}" class="salarie-row" th:id="${salarie.getId()}">
+        <tr th:each="salarie, rowStat : ${pageSalaries.content}"
+            th:id="${salarie.getId()}"
+            class="salarie-row"
+            th:classappend="${highlight == salarie.getId()} ? 'alert-info' : ''">
           <td th:text="${salarie.getId()}" class="p-2 col-2"></td>
           <td th:text="${salarie.getNom()}" class="p-2 col-8"></td>
           <td class="p-1 col-2">
@@ -106,7 +109,8 @@
       // au click, sauvegarde les paramètres de Liste dans la Session Storage,
       // puis navigue au détail de l'employé :
       let params = window.location.search;
-      params = params.replace(/(?:saved|created|deleted)=true(?:&|$)/g, '');
+      params = params.replace(/(?:&)?(?:saved|created|deleted)=true(?:&|$)/g, '');
+      params = params.replace(/(?:&)?highlight=\d+(?:&|$)/g, '');
       sessionStorage.setItem("listParams", params);
       window.location.href = window.location.pathname + '/' + e.currentTarget.id;
 

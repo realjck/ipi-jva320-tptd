@@ -45,6 +45,7 @@ public class SalarieController {
         @RequestParam(defaultValue = "false") String saved,
         @RequestParam(defaultValue = "false") String deleted,
         @RequestParam(defaultValue = "false") String created,
+        @RequestParam(defaultValue = "-1") int highlight,
         final ModelMap model
     ){
         Sort.Direction direction = Sort.Direction.fromString(sortDirection);
@@ -66,6 +67,7 @@ public class SalarieController {
         model.put("saved", saved);
         model.put("deleted", deleted);
         model.put("created", created);
+        model.put("highlight", highlight);
 
         return "list";
     }
@@ -134,9 +136,11 @@ public class SalarieController {
             }
         } else { // Si ID non-existante, alors CREATE
             try {
-                salarieAideADomicileService.creerSalarieAideADomicile(salarie);
+                SalarieAideADomicile newSalarie = salarieAideADomicileService.creerSalarieAideADomicile(salarie);
                 // renvoie la dernière page de la liste
-                return "redirect:/salaries?created=true&page=" + (int)((salarieAideADomicileService.countSalaries()-1)/10);
+                return "redirect:/salaries?created=true&page="
+                        + (int)((salarieAideADomicileService.countSalaries()-1)/10)
+                        + "&highlight=" + newSalarie.getId();
             } catch (SalarieException e){
                 isError = e.getMessage();
             }
@@ -148,7 +152,11 @@ public class SalarieController {
             model.put("msgSalarie", msgSalarie);
             return "detail_Salarie";
         } else {
-            return "redirect:/salaries"+listParams+"&saved=true";
+            if (listParams.isEmpty()){
+                return "redirect:/salaries?saved=true&highlight="+salarie.getId();
+            } else {
+                return "redirect:/salaries"+listParams+"&saved=true&highlight="+salarie.getId();
+            }
         }
     }
 
