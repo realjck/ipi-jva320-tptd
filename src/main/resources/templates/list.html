@@ -90,13 +90,7 @@
 <!-- JAVASCRIPT -->
 <script th:inline="javascript">
 
-  // si l'on revient d'une sauvegarde, on remet les paramètres :
-  const history = sessionStorage.getItem('searchHistory').substring(1);
-  if (window.location.search.indexOf("saved=true") > -1 && window.location.search.indexOf(history) === -1){
-    window.location.search += "&" + history;
-  }
-
-  // Survol des lignes, et clic avec sauvegarde des paramètres pour le bouton back :
+  // Survol des lignes :
   const rows = document.querySelectorAll('.salarie-row');
   const hideables = document.querySelectorAll('.hide-able');
   hideAll();
@@ -108,13 +102,14 @@
   rows.forEach(row => {
     row.style.cursor = "pointer";
     row.addEventListener('click', (e) => {
-      // sauvegarde les paramètres puis navigue
+
+      // au click, sauvegarde les paramètres de Liste dans la Session Storage,
+      // puis navigue au détail de l'employé :
       let params = window.location.search;
-      params = params.replace(/saved=true(?:&|$)/, '');
-      params = params.replace(/created=true(?:&|$)/, '');
-      params = params.replace(/deleted=true(?:&|$)/, '');
-      sessionStorage.setItem('searchHistory', params);
+      params = params.replace(/(?:saved|created|deleted)=true(?:&|$)/g, '');
+      sessionStorage.setItem("listParams", params);
       window.location.href = window.location.pathname + '/' + e.currentTarget.id;
+
     });
     row.addEventListener('mouseover', () => {
       hideAll();

@@ -4,6 +4,7 @@ import com.ipi.jva320.exception.SalarieException;
 import com.ipi.jva320.model.SalarieAideADomicile;
 import com.ipi.jva320.service.SalarieAideADomicileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.*;
@@ -119,7 +120,11 @@ public class SalarieController {
      * @return HTML
      */
     @PostMapping("/salaries/save")
-    public String saveSalarie(@ModelAttribute SalarieAideADomicile salarie, final ModelMap model) throws SalarieException {
+    public String saveSalarie(
+            @ModelAttribute SalarieAideADomicile salarie,
+            @RequestParam("listParams") String listParams,
+            final ModelMap model
+    ) throws SalarieException {
         String isError = "";
         if (salarie.getId() != null){ // Si ID existante, alors UPDATE
             try {
@@ -139,12 +144,11 @@ public class SalarieController {
         if (!Objects.equals(isError, "")){
             model.put("isError", isError);
             model.put("salarie", salarie);
-            Object[] params = {salarie.getId()};
-            String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
+            String msgSalarie = messageSource.getMessage("msg.salarie_error", null, LocaleContextHolder.getLocale());
             model.put("msgSalarie", msgSalarie);
             return "detail_Salarie";
         } else {
-            return "redirect:/salaries?saved=true";
+            return "redirect:/salaries"+listParams+"&saved=true";
         }
     }
 

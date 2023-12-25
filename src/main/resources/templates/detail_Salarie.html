@@ -12,12 +12,7 @@
         </span>
         <span id="salarie-title" th:text="${salarie.getId()} ? ${salarie.getNom()} : #{msg.salarie_new_title}"></span>
     </h2>
-    <script th:inline="javascript">
-        document.querySelectorAll('.badge').forEach(elem => elem.style.cursor = "pointer");
-        function goBack() {
-            window.location.href = "/salaries" + sessionStorage.getItem('searchHistory');
-        }
-    </script>
+
     <div th:if="${salarie.getId()==null}" class="alert alert-info mt-4" role="alert">
         <p><strong>Note de la direction :</strong> Les salariés homonymes sont interdits.</p>
     </div>
@@ -108,6 +103,10 @@
             </div>
 
         </div>
+
+        <!-- Utilisé pour transmettre les paramètres de liste à l'enregistrement (cf. code JS) -->
+        <input id="listParams" name="listParams" type="hidden">
+
     </form>
 
     <div class="row mt-4">
@@ -124,18 +123,31 @@
 
 </div>
 </body></html>
+<!-- JAVASCRIPT MAGIC -->
 <script th:inline="javascript">
+
+    // save List Params
+    document.getElementById('listParams').value = sessionStorage.getItem("listParams");
+
+    // button back :
+    document.querySelectorAll('.badge').forEach(elem => elem.style.cursor = "pointer");
+    function goBack() {
+        window.location.href = "/salaries" + sessionStorage.getItem('listParams');
+    }
+
     // Live typing Name value :
     const inputNom = document.getElementById('nom');
-    const title = document.getElementById('salarie-title')
+    const title = document.getElementById('salarie-title');
     inputNom.addEventListener('input', () => {
         title.textContent = inputNom.value;
     });
-    // if creation, focus on Name input
+
+    // if creation, focus on Name input :
     if (!document.getElementById('id')){
         inputNom.focus()
     }
-    // Delete confirmation
+
+    // Delete confirmation :
     document.getElementById("deleteButton").addEventListener("click", (event) => {
         if (!confirm("⚠️ Êtes-vous sûr de vouloir supprimer ce salarié ?")){
             event.preventDefault();
