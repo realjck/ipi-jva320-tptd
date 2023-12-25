@@ -99,13 +99,13 @@ public class SalarieController {
      */
     @PostMapping("/salaries/{id}/delete")
     public String deleteSalarie(final ModelMap model, @PathVariable long id) throws SalarieException {
-        SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
-        Object[] params = {salarie.getId()};
-        String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
         try {
             salarieAideADomicileService.deleteSalarieAideADomicile(id);
             return "redirect:/salaries?deleted=true";
         } catch (SalarieException e){
+            SalarieAideADomicile salarie = salarieAideADomicileService.getSalarie(id);
+            Object[] params = {salarie.getId()};
+            String msgSalarie = messageSource.getMessage("msg.salarie", params, LocaleContextHolder.getLocale());
             model.put("isError", e.getMessage());
             model.put("salarie", salarie);
             model.put("msgSalarie", msgSalarie);
