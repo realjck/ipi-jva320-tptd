@@ -93,9 +93,7 @@
   // si l'on revient d'une sauvegarde, on remet les paramètres :
   const history = sessionStorage.getItem('searchHistory').substring(1);
   if (window.location.search.indexOf("saved=true") > -1 && window.location.search.indexOf(history) === -1){
-    let params = window.location.search + "&" + history;
-    params = params.replace("&saved=true", "");
-    window.location.search = params;
+    window.location.search = window.location.search + "&" + history;
   }
 
   // Survol des lignes, et clic avec sauvegarde des paramètres pour le bouton back :
@@ -111,7 +109,11 @@
     row.style.cursor = "pointer";
     row.addEventListener('click', (e) => {
       // sauvegarde les paramètres puis navigue
-      sessionStorage.setItem('searchHistory', window.location.search);
+      let params = window.location.search;
+      params = params.replace(/saved=true(?:&|$)/, '');
+      params = params.replace(/created=true(?:&|$)/, '');
+      params = params.replace(/deleted=true(?:&|$)/, '');
+      sessionStorage.setItem('searchHistory', params);
       window.location.href = window.location.pathname + '/' + e.currentTarget.id;
     });
     row.addEventListener('mouseover', () => {
