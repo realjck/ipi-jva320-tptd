@@ -93,7 +93,7 @@
   // si l'on revient d'une sauvegarde, on remet les paramètres :
   const history = sessionStorage.getItem('searchHistory').substring(1);
   if (window.location.search.indexOf("saved=true") > -1 && window.location.search.indexOf(history) === -1){
-    window.location.search = window.location.search + "&" + history;
+    window.location.search += "&" + history;
   }
 
   // Survol des lignes, et clic avec sauvegarde des paramètres pour le bouton back :
