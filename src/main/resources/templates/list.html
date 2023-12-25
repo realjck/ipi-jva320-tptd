@@ -5,9 +5,9 @@
 <nav th:insert="~{common :: navbar}"></nav>
 <div class="container">
   <h1 class="d-inline-flex mr-3 mt-3">Liste des salariés</h1>
-  <a href="/salaries/new" class="btn btn-primary mb-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
-  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success ml-5 mt-3 align-top">Les modifications ont bien été enregistrées.</div>
-  <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger ml-5 mt-3 align-top">Le salarié a bien été supprimé.</div>
+  <a href="/salaries/new" class="btn btn-primary mb-3 mr-3"><i class="fa fa-plus-square"></i> Nouveau salarié</a>
+  <div th:if="${saved=='true'}" class="d-inline-flex alert alert-success mt-3 align-top">Les modifications ont bien été enregistrées.</div>
+  <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger mt-3 align-top">Le salarié a bien été supprimé.</div>
   <!-- Bouton pour effacer recherche : -->
   <div class="row" th:if="${matricule!=''}">
     <a href="/salaries">
@@ -25,7 +25,7 @@
         <tr>
           <th scope="col">ID
             <a th:href="@{/salaries(page=0, sortProperty='id', sortDirection=${sortProperty=='id' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
-              <span th:if="${matricule==''}" class="badge badge-primary">
+              <span th:if="${matricule==''}" class="badge badge-secondary">
                 <i th:if="${sortProperty == 'id' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
                 <i th:if="${sortProperty == 'id' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
                 <i th:if="${sortProperty != 'id'}" class="fa fa-minus"></i>
@@ -34,7 +34,7 @@
           </th>
           <th scope="col">Nom
             <a th:href="@{/salaries(page=0, sortProperty='nom', sortDirection=${sortProperty=='nom' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
-              <span th:if="${matricule==''}" class="badge badge-primary">
+              <span th:if="${matricule==''}" class="badge badge-secondary">
                 <i th:if="${sortProperty == 'nom' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
                 <i th:if="${sortProperty == 'nom' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
                 <i th:if="${sortProperty != 'nom'}" class="fa fa-minus"></i>

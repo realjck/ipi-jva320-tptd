@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +104,6 @@ public class SalarieController {
             return "redirect:/salaries?deleted=true";
         } catch (SalarieException e){
             model.put("isError", e.getMessage());
-            model.put("needConfirm", true);
             model.put("salarie", salarie);
             model.put("msgSalarie", msgSalarie);
             return "detail_Salarie";
@@ -128,6 +128,7 @@ public class SalarieController {
         } else { // Si ID non-existante, alors CREATE
             try {
                 salarieAideADomicileService.creerSalarieAideADomicile(salarie);
+                return "redirect:/salaries?saved=true&page=" + (int)((salarieAideADomicileService.countSalaries()-1)/10);
             } catch (SalarieException e){
                 isError = e.getMessage();
             }
@@ -162,12 +163,3 @@ public class SalarieController {
     }
 
 }
-
-
-
-/*
-@ResponseStatus(value = HttpStatus.NO_CONTENT)
-public class SalarieInvalideException() extends Exception{
-
-}
-*/
