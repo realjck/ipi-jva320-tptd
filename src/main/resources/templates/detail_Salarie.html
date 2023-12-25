@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label class="form-control-label" for="nom">Nom</label>
-                <input th:value="${salarie} ? ${salarie.getNom()} : ''" type="text" class="form-control" name="nom" id="nom">
+                <input th:value="${salarie} ? ${salarie.getNom()} : ''" type="text" class="form-control" th:required="${true}" name="nom" id="nom">
             </div>
             <div class="form-group">
                 <label class="form-control-label" for="moisEnCours">moisEnCours</label>
