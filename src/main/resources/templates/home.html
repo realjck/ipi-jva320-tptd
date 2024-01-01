@@ -61,6 +61,8 @@
                     <p class="list-group-item-text">Développer ou enrichir le bon Controller pour réaliser cela, et côté web réutiliser detail_Salarie.html (comme le code du Controller et donc leurs URLs et les valeurs affichées dans le template HTML diffèrent dans les deux cas création et modification, il faut utiliser des expressions conditionnelles ternaires Thymeleaf pour supporter les deux à la fois). Une alternative permettant de se passer d'expressions conditionnelles ternaires Thymeleaf est de plutôt le copier vers new_Salarie.html.
                     Attention, le
                     </p>
+                    <p class="list-group-item-text alert alert-info"><strong>Node de JCK : </strong>J'ai utilisé le même contrôleur <code>salaries/save</code> pour la modification et la création d'un salarié, le contrôleur vérifie si l'id est existant ou pas pour effectuer selon.
+                    </p>
                 </li>
                 <li class="list-group-item">
                     <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>Réutilisation du head HTML par un fragment</h4>
@@ -71,15 +73,19 @@
                     <p class="list-group-item-text">En allant à <a href="./salaries?page=0&amp;size=10&amp;sortDirection=ASC&amp;sortProperty=nom">http://localhost:8080/salaries?page=0&amp;size=10&amp;sortDirection=ASC&amp;sortProperty=nom</a>, tous les salariés doivent être affichés, de manière paginée (il est possible de changer de page en utilisant les boutons). Développer ou enrichir le bon Controller pour cela, en utilisant la bonne méthode de SalarieAideADomicileService (il faut au moins modifier le mapping et rajouter des paramètres à l'appel à SalarieAideADomicileService).</p>
                 </li>
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>BONUS Afficher les erreurs</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-progress"></span>BONUS Afficher les erreurs</h4>
                     <p class="list-group-item-text">Afficher sur la page du détail d'un salarié les erreurs de création, modification ou suppression de salarié dans quelques cas à imaginer. Les erreurs concernées peuvent être : en TD de désérialisation (trouver comment envoyer des valeurs erronées au serveur), en BONUS de validation (rajouter <code>@NotBlank(message="Requis !") private String nom;</code>dans SalarieAideADomicile et la dépendance à spring-boot-validation dans le pom.xml), en TP les exceptions métier ou techniques levées par le service... Si elles n'y sont pas déjà, elles peuvent être mises dans le BindingResult (à y rajouter en "globalError") ou passées à la vue explicitement. Et dans la vue, elles peuvent être accédées par la syntaxe <code>#fields.errors('monChamp')</code> ou le cas échéant explicitement.
                         Faire le
+                    </p>
+                    <p class="list-group-item-text alert alert-info"><strong>Node de JCK : </strong>J'ai rajouté au formulaire quelques vérifications côté saisie utilisateur pour empêcher la saisie d'erreur, dont l'utilisation de la balise <code>th:required="${true}"</code> pour l'input du nom. Dans le cadre d'erreur backend, j'ai rajouté une erreur qui remonte en front lorsque le nom d'un salarié existe déjà.
                     </p>
                 </li>
 
                 <li class="list-group-item">
                     <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>TP - Suppression d'un salarié</h4>
                     <p class="list-group-item-text">En allant à <a href="./salaries/1">http://localhost:8080/salaries/1</a> (page de détail du salarié d'id 1), il est possible de supprimer le salarié affiché lorsqu'on clique sur le bouton <em>Supprimer</em>. L'appel qui est effectué est <code>GET /salaries/1/delete</code> (NB. en API REST ce serait un PUT mais il s'agit de Controllers de pages web).</p>
+                    <p class="list-group-item-text alert alert-info"><strong>Node de JCK : </strong>Pour ce contrôleur j'ai choisi d'utiliser la méthode <code>POST</code> qui me semble mieux adapté pour une modification des données. Dans tous les cas cette méthode agit comme une méthode GET car elle récupère l'ID concerné en paramètre d'URL.
+                    </p>
                 </li>
                 <li class="list-group-item">
                     <h4 class="list-group-item-heading"><span th:replace="common::flag-done"></span>TP - Recherche par nom</h4>
@@ -91,7 +97,7 @@
                 </li>
 
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">BONUS TP - Utilisation pour les 2 d'un seul fragment qui est paramétré</h4>
+                    <h4 class="list-group-item-heading"><span th:replace="common::flag-progress"></span>BONUS TP - Utilisation pour les 2 d'un seul fragment qui est paramétré</h4>
                     <p class="list-group-item-text">Utiliser dans les 2 cas vus de fragments plutôt un seul fragment qui soit paramétré (faire une sauvegarde des pages à modifier d'abord dans u sous-dossier).</p>
                 </li>
             </ul>

@@ -10,10 +10,10 @@
   <div th:if="${created=='true'}" class="d-inline-flex alert alert-info mt-3 align-top">Le nouveau salarié a bien été créé.</div>
   <div th:if="${deleted=='true'}" class="d-inline-flex alert alert-danger mt-3 align-top">Le salarié a bien été supprimé.</div>
   <!-- Bouton pour effacer recherche : -->
-  <div class="row" th:if="${matricule!=''}">
+  <div class="row" th:if="${nom!=''}">
     <a href="/salaries">
       <div class="badge badge-secondary p-2 ml-4 mb-4">
-        <span th:text="${matricule}"></span><i class="fa fa-close ml-2"></i>
+        <span th:text="${nom}"></span><i class="fa fa-close ml-2"></i>
       </div>
     </a>
   </div>
@@ -26,7 +26,7 @@
         <tr>
           <th scope="col">ID
             <a th:href="@{/salaries(page=0, sortProperty='id', sortDirection=${sortProperty=='id' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
-              <span th:if="${matricule==''}" class="badge badge-secondary">
+              <span th:if="${nom==''}" class="badge badge-secondary">
                 <i th:if="${sortProperty == 'id' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
                 <i th:if="${sortProperty == 'id' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
                 <i th:if="${sortProperty != 'id'}" class="fa fa-minus"></i>
@@ -35,7 +35,7 @@
           </th>
           <th scope="col">Nom
             <a th:href="@{/salaries(page=0, sortProperty='nom', sortDirection=${sortProperty=='nom' && sortDirection=='ASC' ? 'DESC' : 'ASC'})}">
-              <span th:if="${matricule==''}" class="badge badge-secondary">
+              <span th:if="${nom==''}" class="badge badge-secondary">
                 <i th:if="${sortProperty == 'nom' && sortDirection == 'ASC'}" class="fa fa-chevron-up"></i>
                 <i th:if="${sortProperty == 'nom' && sortDirection == 'DESC'}" class="fa fa-chevron-down"></i>
                 <i th:if="${sortProperty != 'nom'}" class="fa fa-minus"></i>
@@ -67,7 +67,7 @@
         <div class="col-lg-6">
           <p>Affichage des salariés <span th:text="${pageSalaries.number * pageSalaries.size + 1}"></span> à <span th:text="${((pageSalaries.number + 1) * pageSalaries.size) > pageSalaries.totalElements ? pageSalaries.totalElements : ((pageSalaries.number + 1) * pageSalaries.size)}"></span> sur un total de <span th:text="${pageSalaries.totalElements}"></span></p>
         </div>
-        <div th:if="${matricule==''}" class="col-lg-6">
+        <div th:if="${nom==''}" class="col-lg-6">
           <ul class="pagination">
             <li th:class="${pageSalaries.first ? 'page-item disabled' : 'page-item'}">
               <a th:href="@{/salaries(page=${pageSalaries.number - 1}, sortProperty=${sortProperty}, sortDirection=${sortDirection})}" class="page-link" aria-label="Previous">«</a>

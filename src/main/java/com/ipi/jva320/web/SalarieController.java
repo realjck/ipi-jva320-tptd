@@ -29,7 +29,7 @@ public class SalarieController {
      * @param size int
      * @param sortProperty string
      * @param sortDirection string
-     * @param matricule string
+     * @param nom string
      * @param model ModelMap
      * @return HTML
      */
@@ -39,7 +39,7 @@ public class SalarieController {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "id") String sortProperty,
         @RequestParam(defaultValue = "ASC") String sortDirection,
-        @RequestParam(defaultValue = "") String matricule,
+        @RequestParam(defaultValue = "") String nom,
         @RequestParam(defaultValue = "false") String saved,
         @RequestParam(defaultValue = "false") String deleted,
         @RequestParam(defaultValue = "false") String created,
@@ -50,10 +50,10 @@ public class SalarieController {
         PageRequest pageRequest = PageRequest.of(page, size, direction, sortProperty);
         Page<SalarieAideADomicile> pageSalaries;
         // LA RECHERCHE A LIEU ICI :
-        if (!matricule.isEmpty()) {
+        if (!nom.isEmpty()) {
             pageSalaries = salarieAideADomicileService.getSalaries()
                 .stream()
-                .filter(salarie -> salarie.getNom().toLowerCase().contains(matricule.toLowerCase()))
+                .filter(salarie -> salarie.getNom().toLowerCase().contains(nom.toLowerCase()))
                 .collect(Collectors.collectingAndThen(Collectors.toList(), PageImpl::new));
         } else {
             pageSalaries = salarieAideADomicileService.getSalaries(pageRequest);
@@ -61,7 +61,7 @@ public class SalarieController {
         model.put("pageSalaries", pageSalaries);
         model.put("sortProperty", sortProperty);
         model.put("sortDirection", sortDirection);
-        model.put("matricule", matricule);
+        model.put("nom", nom);
         model.put("saved", saved);
         model.put("deleted", deleted);
         model.put("created", created);
@@ -160,7 +160,7 @@ public class SalarieController {
 
     /**
      * Route pour le formulaire de création d'un Salarié
-     * @param model MpoelMap
+     * @param model ModelMap
      * @return HTML
      */
     @GetMapping("salaries/new")

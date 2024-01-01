@@ -113,6 +113,7 @@ public class SalarieAideADomicileService {
         if (!existantHomonyme.isEmpty()) {
             throw new SalarieException("Un salarié avec le nom "+salarieAideADomicile.getNom()+" existe déjà !");
         }
+
         return salarieAideADomicileRepository.save(salarieAideADomicile);
     }
 

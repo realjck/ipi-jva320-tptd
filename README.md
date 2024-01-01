@@ -1,5 +1,13 @@
 # TD et TP IPI JVA320 - Application web Java (Servlet, Spring MVC, Thymeleaf)
 
+> ### TP finalisé au 01/01/2024
+> Ce dépôt GitHub reprend mon travail sur l'exercice proposé.
+> 
+> L'interface présente quelques améliorations, dont la possibilité de revenir à la liste en cours dans l'écran de détail salarié. Quelques commentaires ont été aussi ajouté en home page de l'application.
+> 
+> Cordialement,
+> JC Kleinbourg
+
 Ce projet est un début d'application web de gestion de salariés aide à domiciles.
 Il permet de réaliser les exercices en séance (TD) et exercices de l'évaluation (TP) du cours.
 L'énoncé de ces exercices est dans la page web accessible à http://localhost:8080/home.html
